@@ -16,13 +16,17 @@ export class Triangle implements Figure {
 
   color: Color;
 
-  constructor(a: number, b: number, c: number, color: Color) {
-    
+  constructor(color: Color, a: number, b: number, c: number) {
     if (a <= 0 || b <= 0 || c <= 0 || a + b <= c || a + c <= b || b + c <= a) {
-      throw new Error('Неправильні сторони трикутника');
+     throw new Error('Invalid triangle sides');
     }
 
-    this.shape = { kind: 'triangle', a, b, c };
+    this.shape = {
+      kind: 'triangle',
+      a,
+      b,
+      c,
+    };
     this.color = color;
   }
 
@@ -30,7 +34,7 @@ export class Triangle implements Figure {
     const { a, b, c } = this.shape;
     const s = (a + b + c) / 2;
 
-    return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+   return Math.floor(Math.sqrt(s * (s - a) * (s - b) * (s - c)) * 100) / 100;
   }
 }
 
@@ -38,7 +42,7 @@ export class Circle implements Figure {
   shape: { kind: 'circle'; r: number };
   color: Color;
 
-  constructor(r: number, color: Color) {
+  constructor(color: Color, r: number) {
     if (r <= 0) {
       throw new Error('Радіус має бути > 0');
     }
@@ -47,16 +51,20 @@ export class Circle implements Figure {
     this.color = color;
   }
 
-  getArea(): number {
-    return Math.PI * this.shape.r ** 2;
-  }
+ getArea(): number {
+  const { r } = this.shape;
+  const area = Math.PI * r * r;
+
+  return Math.floor(area * 100) / 100;
+ }
 }
 
 export class Rectangle implements Figure {
   shape: { kind: 'rectangle'; width: number; height: number };
+
   color: Color;
 
-  constructor(width: number, height: number, color: Color) {
+  constructor(color: Color, width: number, height: number) {
     if (width <= 0 || height <= 0) {
       throw new Error('Сторони мають бути > 0');
     }
@@ -73,5 +81,8 @@ export class Rectangle implements Figure {
 }
 
 export function getInfo(figure: Figure): string {
-  return typeof figure;
+  const area = figure.getArea();
+  const { kind } = figure.shape;
+  return `A ${figure.color} ${kind} - ${area}`;
 }
+
