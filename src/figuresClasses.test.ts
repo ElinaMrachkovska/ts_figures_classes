@@ -114,8 +114,9 @@ describe('Method "getArea" of class "Circle"', () => {
 
   test('should return a correct square of a circle', () => {
     const circle = new Circle('red', 6);
-expect(circle.getArea()).toBeCloseTo(113.09, 2);
-
+    
+    expect(circle.getArea())
+      .toBeCloseTo(113.09, 2);
   });
 });
 
